@@ -1,19 +1,14 @@
-"use client";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-
-export const dynamic = "force-dynamic"; // 
-
-export default function DashboardPage() {
-  const { data: session, status } = useSession();
-  const router = useRouter();
-
-  if (status === "loading") return <p>Loading...</p>;
+export default async function DashboardPage() {
+  // Check the session server-side
+  const session = await getServerSession(authOptions);
 
   if (!session) {
-    router.push("/login");
-    return null;
+    // If not logged in, redirect immediately before rendering
+    redirect("/login");
   }
 
   return (
