@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="p-4 flex justify-center bg-white shadow">
+        <header className="p-4 flex justify-center bg-white shadow absolute top-4 left-4">
           <Image
             src="/logo.png"
             alt="J. Michael's Prime Logo"
