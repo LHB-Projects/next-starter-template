@@ -29,6 +29,7 @@ export default function LoginForm() {
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-lg w-80">
         <h2 className="text-xl font-bold mb-4">Employee Login</h2>
+
         <input
           name="email"
           type="email"
@@ -43,10 +44,23 @@ export default function LoginForm() {
           className="border p-2 mb-3 w-full"
           required
         />
+
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded w-full">
+
+        <button
+          type="submit"
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+        >
           Login
         </button>
+
+        {/* Registration link goes here */}
+        <p className="text-sm text-center mt-3">
+          Don't have an account?{" "}
+          <a href="/register" className="text-blue-600 hover:underline">
+            Register
+          </a>
+        </p>
       </form>
     </div>
   );
