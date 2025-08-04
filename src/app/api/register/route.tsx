@@ -6,16 +6,26 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password } = await req.json();
+    const { name, email, password } = await req.json() as {
+      name: string;
+      email: string;
+      password: string;
+    };
 
     if (!email || !password || !name) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 }
+      );
     }
 
     const existingUser = await prisma.employee.findUnique({ where: { email } });
 
     if (existingUser) {
-      return NextResponse.json({ error: "Email already registered" }, { status: 409 });
+      return NextResponse.json(
+        { error: "Email already registered" },
+        { status: 409 }
+      );
     }
 
     const hashed = await bcrypt.hash(password, 10);

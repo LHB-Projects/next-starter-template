@@ -6,9 +6,13 @@ import { useRouter } from "next/navigation";
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+
     const form = new FormData(e.currentTarget);
 
     const res = await fetch("/api/register", {
@@ -23,12 +27,15 @@ export default function RegisterPage() {
 
     const data = (await res.json()) as { error?: string };
 
+    setLoading(false);
+
     if (!res.ok) {
       setError(data.error || "Something went wrong");
     } else {
       router.push("/login");
     }
   }
+
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
       <form
@@ -62,12 +69,12 @@ export default function RegisterPage() {
 
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+          disabled={loading}
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full disabled:opacity-50"
         >
-          Register
+          {loading ? "Registering..." : "Register"}
         </button>
 
-        {/* Back to Login link */}
         <p className="text-sm text-center mt-3">
           Already have an account?{" "}
           <a href="/login" className="text-blue-600 hover:underline">
