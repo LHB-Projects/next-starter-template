@@ -1,8 +1,9 @@
 import "./globals.css";
-import type { Metadata } from "next"; // ✅ add this
+import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
-export const metadata: Metadata = { // type annotation
+export const metadata: Metadata = {
   title: "J. Michael's Prime",
   description: "Steaks & Seafood",
 };
@@ -14,17 +15,25 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <header className="p-4 flex justify-center bg-white shadow absolute top-4 left-4">
-          <Image
-            src="/logo.png"
-            alt="J. Michael's Prime Logo"
-            width={250}
-            height={100}
-            priority
-          />
+      <body className="relative min-h-screen">
+        {/* Absolutely positioned logo */}
+        <header className="absolute top--10 left-0 w-full flex justify-center z-50 pointer-events-none">
+          <Link href="/dashboard" className="pointer-events-auto">
+            <Image
+              src="/logo.png"
+              alt="J. Michael's Prime Logo"
+              width={500}
+              height={250}
+              priority
+              className="cursor-pointer w-auto max-w-[500px] h-auto px-4"
+            />
+          </Link>
         </header>
-        <main>{children}</main>
+
+        {/* Main content shifted down just enough to clear logo */}
+        <main className="flex justify-center items-start mt-[140px]">
+          {children}
+        </main>
       </body>
     </html>
   );
