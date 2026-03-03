@@ -1,7 +1,4 @@
-/**
- * For more details on how to configure Wrangler, refer to:
- * https://developers.cloudflare.com/workers/wrangler/configuration/
- */ {
+{
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "jmp-hub",
   "main": ".open-next/worker.js",
@@ -14,5 +11,8 @@
   "observability": {
     "enabled": true
   },
-  "upload_source_maps": true
+  "upload_source_maps": true,
+  "vars": {
+    "NEXTAUTH_URL": "jmp-hub.lhbrowne1999.workers.dev"
+  }
 }
