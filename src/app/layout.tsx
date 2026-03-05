@@ -1,9 +1,7 @@
 import "./globals.css";
-import Image from "next/image";
-import Link from "next/link";
 import { getSiteSettings } from "@/lib/siteSettings";
-import NavDropdown from "@/components/NavDropdown";
 import SessionProvider from "@/components/SessionProvider";
+import ConditionalNav from "@/components/ConditionalNav";
 
 export async function generateMetadata() {
   const settings = await getSiteSettings();
@@ -30,20 +28,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className="relative min-h-screen" style={cssVars}>
         <SessionProvider>
-          <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-white/80 backdrop-blur-sm border-b border-[#e8e2db]">
-            <Link href="/dashboard">
-              <Image
-                src={settings.logo_url}
-                alt={`${settings.site_title} Logo`}
-                width={300}
-                height={150}
-                priority
-                className="cursor-pointer w-auto h-20 object-contain"
-              />
-            </Link>
-            <NavDropdown />
-          </header>
-          <main className="flex justify-center items-start mt-[96px]">
+          <ConditionalNav settings={{ logo_url: settings.logo_url, site_title: settings.site_title }} />
+          <main>
             {children}
           </main>
         </SessionProvider>
