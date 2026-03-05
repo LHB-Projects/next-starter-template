@@ -33,11 +33,11 @@ export default function LoginForm() {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-center px-4"
+      className="fixed inset-0 flex flex-col items-center justify-center px-4"
       style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
     >
       {/* Logo */}
-      <div className="mb-10">
+      <div className="mb-8">
         <Image
           src="/logo.png"
           alt="J. Michael's Prime"
@@ -142,7 +142,7 @@ export default function LoginForm() {
       </div>
 
       {/* Footer */}
-      <p className="mt-8 text-xs text-[#C4B8B0]" style={{ fontFamily: "var(--font)" }}>
+      <p className="mt-6 text-xs text-[#C4B8B0]" style={{ fontFamily: "var(--font)" }}>
         © {new Date().getFullYear()} J. Michael&apos;s Prime. All rights reserved.
       </p>
     </div>
