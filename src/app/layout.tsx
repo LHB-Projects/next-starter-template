@@ -30,20 +30,20 @@ export default async function RootLayout({
     <html lang="en">
       <body className="relative min-h-screen" style={cssVars}>
         <SessionProvider>
-          <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-2 bg-white/80 backdrop-blur-sm border-b border-[#e8e2db]">
+          <header className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 py-1 bg-white/80 backdrop-blur-sm border-b border-[#e8e2db]">
             <Link href="/dashboard">
               <Image
                 src={settings.logo_url}
                 alt={`${settings.site_title} Logo`}
-                width={160}
-                height={80}
+                width={240}
+                height={120}
                 priority
-                className="cursor-pointer w-auto h-12 object-contain"
+                className="cursor-pointer w-auto h-16 object-contain"
               />
             </Link>
             <NavDropdown />
           </header>
-          <main className="flex justify-center items-start mt-[64px]">
+          <main className="flex justify-center items-start mt-[80px]">
             {children}
           </main>
         </SessionProvider>

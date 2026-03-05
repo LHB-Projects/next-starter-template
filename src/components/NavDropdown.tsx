@@ -3,15 +3,33 @@
 import { useState, useRef, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
+
+type Profile = {
+  avatar_url?: string;
+};
 
 export default function NavDropdown() {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const ref = useRef<HTMLDivElement>(null);
 
   const user = session?.user as { name?: string; email?: string; role?: string } | undefined;
   const isAdmin = user?.role === "admin";
   const firstName = user?.name?.split(" ")[0] ?? "Account";
+
+  // Fetch profile picture
+  useEffect(() => {
+    if (!session) return;
+    fetch("/api/profile", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data: unknown) => {
+        const profile = data as Profile;
+        if (profile?.avatar_url) setAvatarUrl(profile.avatar_url);
+      })
+      .catch(() => null);
+  }, [session]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -30,17 +48,26 @@ export default function NavDropdown() {
       {/* Trigger button */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#f5f1ee] transition-colors duration-200 group"
+        className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#f5f1ee] transition-colors duration-200"
       >
         {/* Avatar */}
         <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-semibold"
-          style={{ backgroundColor: "var(--primary)" }}
+          className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center text-white text-xs font-semibold flex-shrink-0"
+          style={{ backgroundColor: avatarUrl ? "transparent" : "var(--primary)" }}
         >
-          {firstName.charAt(0).toUpperCase()}
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="Profile"
+              width={32}
+              height={32}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            firstName.charAt(0).toUpperCase()
+          )}
         </div>
         <span className="text-sm text-[#2c2825] font-medium hidden sm:block">{firstName}</span>
-        {/* Chevron */}
         <svg
           width="14"
           height="14"
@@ -58,9 +85,27 @@ export default function NavDropdown() {
       {open && (
         <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl border border-[#e8e2db] shadow-lg overflow-hidden z-50">
           {/* User info */}
-          <div className="px-4 py-3 border-b border-[#e8e2db]">
-            <p className="text-sm font-semibold text-[#2c2825]">{user?.name}</p>
-            <p className="text-xs text-[#A69B90] mt-0.5 truncate">{user?.email}</p>
+          <div className="px-4 py-3 border-b border-[#e8e2db] flex items-center gap-3">
+            <div
+              className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white text-sm font-semibold flex-shrink-0"
+              style={{ backgroundColor: avatarUrl ? "transparent" : "var(--primary)" }}
+            >
+              {avatarUrl ? (
+                <Image
+                  src={avatarUrl}
+                  alt="Profile"
+                  width={40}
+                  height={40}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                firstName.charAt(0).toUpperCase()
+              )}
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-[#2c2825] truncate">{user?.name}</p>
+              <p className="text-xs text-[#A69B90] truncate">{user?.email}</p>
+            </div>
           </div>
 
           <div className="py-1">

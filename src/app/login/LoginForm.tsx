@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -26,7 +27,19 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center px-4">
+      {/* Logo above the form */}
+      <div className="mb-6">
+        <Image
+          src="/logo.png"
+          alt="Logo"
+          width={320}
+          height={160}
+          priority
+          className="w-auto h-auto max-w-[320px]"
+        />
+      </div>
+
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm bg-white rounded-lg shadow-md p-6 transition-all duration-300 ease-in-out"
