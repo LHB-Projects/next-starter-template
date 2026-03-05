@@ -1,19 +1,17 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
-type Props = {
-  userName: string;
-  userEmail: string;
-  isAdmin: boolean;
-};
-
-export default function NavDropdown({ userName, userEmail, isAdmin }: Props) {
+export default function NavDropdown() {
+  const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const firstName = userName.split(" ")[0] ?? "Account";
+
+  const user = session?.user as { name?: string; email?: string; role?: string } | undefined;
+  const isAdmin = user?.role === "admin";
+  const firstName = user?.name?.split(" ")[0] ?? "Account";
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -24,6 +22,8 @@ export default function NavDropdown({ userName, userEmail, isAdmin }: Props) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  if (status === "loading" || !session) return null;
 
   return (
     <div className="relative" ref={ref}>
@@ -59,8 +59,8 @@ export default function NavDropdown({ userName, userEmail, isAdmin }: Props) {
         <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl border border-[#e8e2db] shadow-lg overflow-hidden z-50">
           {/* User info */}
           <div className="px-4 py-3 border-b border-[#e8e2db]">
-            <p className="text-sm font-semibold text-[#2c2825]">{userName}</p>
-            <p className="text-xs text-[#A69B90] mt-0.5 truncate">{userEmail}</p>
+            <p className="text-sm font-semibold text-[#2c2825]">{user?.name}</p>
+            <p className="text-xs text-[#A69B90] mt-0.5 truncate">{user?.email}</p>
           </div>
 
           <div className="py-1">
