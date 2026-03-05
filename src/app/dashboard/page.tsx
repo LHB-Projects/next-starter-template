@@ -63,87 +63,98 @@ export default async function DashboardPage() {
         </svg>
       ),
       href: "/profile",
-      available: false,
+      available: true,
       external: false,
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] w-full px-6 py-10 max-w-4xl mx-auto">
+    <div
+      className="fixed inset-0 overflow-auto"
+      style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
+    >
+      <div className="max-w-4xl mx-auto px-6 pt-24 pb-10">
 
-      {/* Welcome Header */}
-      <div className="mb-10">
-        <p className="text-xs uppercase tracking-widest text-[#C4B8B0] mb-1">Employee Hub</p>
-        <h1 className="text-3xl font-semibold text-[#2c2825]" style={{ fontFamily: "var(--font)" }}>
-          Good to see you, {firstName}.
-        </h1>
-        <p className="text-sm text-[#A69B90] mt-1">
-          {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
-        </p>
-      </div>
+        {/* Welcome Header */}
+        <div className="mb-10">
+          <p className="text-xs uppercase tracking-widest text-[#C4B8B0] mb-1" style={{ fontFamily: "var(--font)" }}>
+            Employee Hub
+          </p>
+          <h1 className="text-3xl font-semibold text-[#2c2825]" style={{ fontFamily: "var(--font)" }}>
+            Good to see you, {firstName}.
+          </h1>
+          <p className="text-sm text-[#A69B90] mt-1" style={{ fontFamily: "var(--font)" }}>
+            {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
+          </p>
+        </div>
 
-      {/* Module Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {navItems.map((item) =>
-          item.available ? (
-            <Link
-              key={item.title}
-              href={item.href}
-              target={item.external ? "_blank" : undefined}
-              rel={item.external ? "noopener noreferrer" : undefined}
-              className="relative bg-white rounded-xl border border-[#e8e2db] p-6 hover:border-[color:var(--primary)] hover:shadow-sm transition-all duration-200 group"
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="p-2.5 rounded-lg"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--primary) 12%, white)" }}
-                >
-                  <span style={{ color: "var(--primary)" }}>{item.icon}</span>
+        {/* Module Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {navItems.map((item) =>
+            item.available ? (
+              <Link
+                key={item.title}
+                href={item.href}
+                target={item.external ? "_blank" : undefined}
+                rel={item.external ? "noopener noreferrer" : undefined}
+                className="relative bg-white/70 backdrop-blur-sm rounded-2xl border border-white/80 shadow-sm p-6 hover:shadow-md hover:border-[color:var(--primary)] transition-all duration-200 group"
+              >
+                <div className="flex items-start gap-4">
+                  <div
+                    className="p-2.5 rounded-xl flex-shrink-0"
+                    style={{ backgroundColor: "color-mix(in srgb, var(--primary) 12%, white)" }}
+                  >
+                    <span style={{ color: "var(--primary)" }}>{item.icon}</span>
+                  </div>
+                  <div>
+                    <h3
+                      className="text-sm font-semibold text-[#2c2825] group-hover:text-[color:var(--primary)] transition-colors duration-200"
+                      style={{ fontFamily: "var(--font)" }}
+                    >
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#A69B90] mt-0.5 leading-relaxed" style={{ fontFamily: "var(--font)" }}>
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[#2c2825] group-hover:text-[color:var(--primary)] transition-colors duration-200">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs text-[#A69B90] mt-0.5 leading-relaxed">{item.description}</p>
+                {item.external && (
+                  <svg
+                    width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                    className="absolute top-4 right-4 text-[#C4B8B0]"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
+                  </svg>
+                )}
+              </Link>
+            ) : (
+              <div
+                key={item.title}
+                className="relative bg-white/40 backdrop-blur-sm rounded-2xl border border-white/60 p-6 opacity-60"
+              >
+                <div className="flex items-start gap-4">
+                  <div
+                    className="p-2.5 rounded-xl flex-shrink-0"
+                    style={{ backgroundColor: "color-mix(in srgb, var(--primary) 8%, white)" }}
+                  >
+                    <span style={{ color: "var(--primary)" }}>{item.icon}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold text-[#2c2825]" style={{ fontFamily: "var(--font)" }}>
+                      {item.title}
+                    </h3>
+                    <p className="text-xs text-[#A69B90] mt-0.5 leading-relaxed" style={{ fontFamily: "var(--font)" }}>
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
+                <span className="absolute top-4 right-4 text-[10px] uppercase tracking-widest text-[#C4B8B0] border border-[#e8e2db] bg-white/60 px-2 py-0.5 rounded-full" style={{ fontFamily: "var(--font)" }}>
+                  Coming soon
+                </span>
               </div>
-              {item.external && (
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="absolute top-4 right-4 text-[#C4B8B0]"
-                >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3" />
-                </svg>
-              )}
-            </Link>
-          ) : (
-            <div
-              key={item.title}
-              className="relative bg-white rounded-xl border border-[#e8e2db] p-6 opacity-60"
-            >
-              <div className="flex items-start gap-4">
-                <div
-                  className="p-2.5 rounded-lg"
-                  style={{ backgroundColor: "color-mix(in srgb, var(--primary) 12%, white)" }}
-                >
-                  <span style={{ color: "var(--primary)" }}>{item.icon}</span>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[#2c2825]">{item.title}</h3>
-                  <p className="text-xs text-[#A69B90] mt-0.5 leading-relaxed">{item.description}</p>
-                </div>
-              </div>
-              <span className="absolute top-4 right-4 text-[10px] uppercase tracking-widest text-[#C4B8B0] border border-[#e8e2db] px-2 py-0.5 rounded-full">
-                Coming soon
-              </span>
-            </div>
-          )
-        )}
+            )
+          )}
+        </div>
       </div>
     </div>
   );
