@@ -99,7 +99,7 @@ export default async function DashboardPage() {
       className="fixed inset-0 overflow-auto"
       style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
     >
-      <div className="max-w-4xl mx-auto px-6 pt-24 pb-10">
+      <div className="max-w-4xl mx-auto px-6 pt-16 pb-10">
         {/* Welcome Header */}
         <div className="mb-10">
           <p

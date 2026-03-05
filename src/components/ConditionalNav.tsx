@@ -33,24 +33,32 @@ export default function ConditionalNav({ settings }: { settings: Settings }) {
 
   return (
     <header
-      className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-6 bg-white/90 backdrop-blur-sm border-b border-[#e8e2db]"
-      style={{ height: "72px", boxShadow: "0 1px 12px 0 rgba(44,40,37,0.07)" }}
+      className="fixed top-0 left-0 w-full z-50 flex items-center"
+      style={{
+        height: "56px",
+        backgroundColor: "var(--primary)",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+      }}
     >
-      {/* Logo */}
-      <Link href="/dashboard" className="flex-shrink-0">
+      {/* Logo — flush left, fills the bar height */}
+      <Link
+        href="/dashboard"
+        className="flex items-center justify-center px-4 h-full flex-shrink-0 border-r"
+        style={{ borderColor: "rgba(255,255,255,0.15)" }}
+      >
         <Image
           src={settings.logo_url}
-          alt={`${settings.site_title} Logo`}
-          width={300}
-          height={150}
+          alt={settings.site_title}
+          width={120}
+          height={48}
           priority
-          className="cursor-pointer w-auto object-contain"
-          style={{ height: "52px" }}
+          className="w-auto object-contain brightness-0 invert"
+          style={{ height: "34px" }}
         />
       </Link>
 
-      {/* Centered nav links */}
-      <nav className="hidden sm:flex items-center gap-0.5 absolute left-1/2 -translate-x-1/2">
+      {/* Nav links */}
+      <nav className="hidden sm:flex items-center h-full ml-2">
         {navLinks.map((link) => {
           const isActive = pathname === link.href;
           return (
@@ -59,18 +67,29 @@ export default function ConditionalNav({ settings }: { settings: Settings }) {
               href={link.href}
               target={link.external ? "_blank" : undefined}
               rel={link.external ? "noopener noreferrer" : undefined}
-              className={`relative px-4 py-2 rounded-lg text-sm transition-all duration-200 ${
-                isActive
-                  ? "font-semibold text-[color:var(--primary)]"
-                  : "font-medium text-[#6b5f58] hover:text-[color:var(--primary)] hover:bg-[#f5f1ee]"
-              }`}
-              style={{ fontFamily: "var(--font)" }}
+              className="relative flex items-center h-full px-4 text-sm font-medium transition-all duration-150"
+              style={{
+                fontFamily: "var(--font)",
+                color: isActive ? "#ffffff" : "rgba(255,255,255,0.75)",
+                backgroundColor: isActive ? "rgba(0,0,0,0.15)" : "transparent",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive)
+                  (e.currentTarget as HTMLElement).style.backgroundColor = "rgba(0,0,0,0.1)";
+                (e.currentTarget as HTMLElement).style.color = "#ffffff";
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+                  (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.75)";
+                }
+              }}
             >
               {link.label}
               {isActive && (
                 <span
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full"
-                  style={{ backgroundColor: "var(--primary)" }}
+                  className="absolute bottom-0 left-0 right-0 h-0.5"
+                  style={{ backgroundColor: "rgba(255,255,255,0.9)" }}
                 />
               )}
             </Link>
@@ -78,8 +97,13 @@ export default function ConditionalNav({ settings }: { settings: Settings }) {
         })}
       </nav>
 
+      {/* Spacer */}
+      <div className="flex-1" />
+
       {/* User dropdown */}
-      <NavDropdown />
+      <div className="pr-4">
+        <NavDropdown />
+      </div>
     </header>
   );
 }

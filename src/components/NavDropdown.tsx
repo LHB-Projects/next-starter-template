@@ -19,7 +19,6 @@ export default function NavDropdown() {
   const isAdmin = user?.role === "admin";
   const firstName = user?.name?.split(" ")[0] ?? "Account";
 
-  // Fetch profile picture
   useEffect(() => {
     if (!session) return;
     fetch("/api/profile", { cache: "no-store" })
@@ -45,15 +44,15 @@ export default function NavDropdown() {
 
   return (
     <div className="relative" ref={ref}>
-      {/* Trigger button */}
+      {/* Trigger */}
       <button
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-[#f5f1ee] transition-colors duration-200"
+        className="flex items-center gap-2.5 px-3 py-1.5 rounded-lg transition-colors duration-150 hover:bg-black/10"
       >
         {/* Avatar */}
         <div
-          className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center text-white text-xs font-semibold flex-shrink-0"
-          style={{ backgroundColor: avatarUrl ? "transparent" : "var(--primary)" }}
+          className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center text-xs font-semibold flex-shrink-0 border-2 border-white/40"
+          style={{ backgroundColor: avatarUrl ? "transparent" : "rgba(255,255,255,0.25)" }}
         >
           {avatarUrl ? (
             <Image
@@ -64,18 +63,22 @@ export default function NavDropdown() {
               className="w-full h-full object-cover"
             />
           ) : (
-            firstName.charAt(0).toUpperCase()
+            <span className="text-white">{firstName.charAt(0).toUpperCase()}</span>
           )}
         </div>
-        <span className="text-sm text-[#2c2825] font-medium hidden sm:block">{firstName}</span>
+
+        <span className="text-sm font-medium text-white hidden sm:block" style={{ fontFamily: "var(--font)" }}>
+          {firstName}
+        </span>
+
         <svg
           width="14"
           height="14"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
+          stroke="white"
           strokeWidth="2"
-          className={`text-[#A69B90] transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`transition-transform duration-200 opacity-75 ${open ? "rotate-180" : ""}`}
         >
           <path d="M6 9l6 6 6-6" />
         </svg>
@@ -109,7 +112,6 @@ export default function NavDropdown() {
           </div>
 
           <div className="py-1">
-            {/* My Profile */}
             <Link
               href="/profile"
               onClick={() => setOpen(false)}
@@ -122,13 +124,10 @@ export default function NavDropdown() {
               My Profile
             </Link>
 
-            {/* Admin — only for admins */}
             {isAdmin && (
               <>
                 <div className="mx-4 my-1 border-t border-[#e8e2db]" />
-                <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-[#C4B8B0]">
-                  Admin
-                </p>
+                <p className="px-4 pt-1 pb-0.5 text-[10px] uppercase tracking-widest text-[#C4B8B0]">Admin</p>
                 <Link
                   href="/admin/site-editor"
                   onClick={() => setOpen(false)}
@@ -143,7 +142,6 @@ export default function NavDropdown() {
               </>
             )}
 
-            {/* Sign out */}
             <div className="mx-4 my-1 border-t border-[#e8e2db]" />
             <button
               onClick={() => signOut({ callbackUrl: "/login" })}
