@@ -33,7 +33,7 @@ export default function LoginForm() {
 
   return (
     <div
-      className="fixed inset-0 flex flex-col items-center justify-start pt-8 px-4"
+      className="fixed inset-0 flex flex-col items-center justify-center pt-8 px-4"
       style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
     >
       {/* Logo */}

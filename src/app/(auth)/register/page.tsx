@@ -38,7 +38,7 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-start px-4 pt-8"
+      className="fixed inset-0 flex flex-col items-center justify-center px-4"
       style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
     >
       {/* Logo */}
@@ -54,10 +54,10 @@ export default function RegisterPage() {
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-md bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/80 px-8 py-10">
+      <div className="w-full max-w-md bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl border border-white/80 px-8 py-8">
 
         {/* Divider with text */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-6">
           <div className="flex-1 h-px bg-[#e8e2db]" />
           <span className="text-xs uppercase tracking-[0.2em] text-[#A69B90]" style={{ fontFamily: "var(--font)" }}>
             Create Account
@@ -65,7 +65,7 @@ export default function RegisterPage() {
           <div className="flex-1 h-px bg-[#e8e2db]" />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3">
           {/* Name */}
           <div className="relative">
             <svg
@@ -137,7 +137,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white text-sm font-medium tracking-wide transition-all duration-200 disabled:opacity-60 mt-2"
+            className="w-full py-3 rounded-xl text-white text-sm font-medium tracking-wide transition-all duration-200 disabled:opacity-60"
             style={{ backgroundColor: "var(--primary)", fontFamily: "var(--font)" }}
             onMouseEnter={(e) => !loading && ((e.target as HTMLElement).style.backgroundColor = "var(--primary-hover)")}
             onMouseLeave={(e) => ((e.target as HTMLElement).style.backgroundColor = "var(--primary)")}
@@ -155,7 +155,7 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <p className="text-xs text-center mt-6 text-[#A69B90]" style={{ fontFamily: "var(--font)" }}>
+        <p className="text-xs text-center mt-5 text-[#A69B90]" style={{ fontFamily: "var(--font)" }}>
           Already have an account?{" "}
           <a
             href="/login"
@@ -168,7 +168,7 @@ export default function RegisterPage() {
       </div>
 
       {/* Footer */}
-      <p className="mt-8 text-xs text-[#C4B8B0]" style={{ fontFamily: "var(--font)" }}>
+      <p className="mt-5 text-xs text-[#C4B8B0]" style={{ fontFamily: "var(--font)" }}>
         © {new Date().getFullYear()} J. Michael&apos;s Prime. All rights reserved.
       </p>
     </div>
