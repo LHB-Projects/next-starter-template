@@ -38,11 +38,11 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col items-center justify-center px-4"
+      className="min-h-screen w-full flex flex-col items-center justify-start px-4 pt-8"
       style={{ background: "linear-gradient(160deg, #faf9f7 0%, #f0ebe4 100%)" }}
     >
       {/* Logo */}
-      <div className="mb-10">
+      <div className="mb-4">
         <Image
           src="/logo.png"
           alt="J. Michael's Prime"
