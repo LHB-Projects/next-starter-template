@@ -26,7 +26,7 @@ export default function ProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    fetch("/api/profile")
+    fetch("/api/profile", { cache: "no-store" })
       .then((r) => r.json())
       .then((data: unknown) => {
         setProfile(data as Profile);
@@ -39,7 +39,6 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Show preview immediately
     const reader = new FileReader();
     reader.onload = (ev) => setAvatarPreview(ev.target?.result as string);
     reader.readAsDataURL(file);
@@ -61,8 +60,11 @@ export default function ProfilePage() {
     if (!res.ok) {
       setError(data.error ?? "Upload failed");
       setAvatarPreview(null);
-    } else if (data.avatar_url && profile) {
-      setProfile({ ...profile, avatar_url: data.avatar_url });
+    } else if (data.avatar_url) {
+      const updated = await fetch("/api/profile", { cache: "no-store" });
+      const updatedProfile = await updated.json() as Profile;
+      setProfile(updatedProfile);
+      setAvatarPreview(null);
     }
   }
 
@@ -129,13 +131,9 @@ export default function ProfilePage() {
 
       {/* Profile Card */}
       <div className="bg-white rounded-xl border border-[#e8e2db] overflow-hidden mb-6">
-
-        {/* Cover Banner */}
-        <div className="h-24 w-full" style={{ background: `linear-gradient(135deg, var(--primary), var(--primary-hover))` }} />
-
-        {/* Avatar + Name */}
         <div className="px-6 pb-6">
-          <div className="flex items-end gap-4 -mt-10 mb-4">
+          <div className="flex items-center gap-4 mt-6 mb-4">
+
             {/* Avatar */}
             <div className="relative group">
               <div
@@ -154,7 +152,6 @@ export default function ProfilePage() {
                 ) : (
                   initials
                 )}
-                {/* Hover overlay */}
                 <div className="absolute inset-0 bg-black/40 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                   {uploading ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -174,13 +171,12 @@ export default function ProfilePage() {
               />
             </div>
 
-            <div className="pb-1">
+            <div>
               <h2 className="text-xl font-semibold text-[#2c2825]">{profile.name}</h2>
               <p className="text-sm text-[#A69B90]">{profile.position || "No position set"}</p>
             </div>
 
-            {/* Role badge */}
-            <div className="ml-auto pb-1">
+            <div className="ml-auto">
               <span
                 className="text-xs font-medium px-3 py-1 rounded-full capitalize"
                 style={{
