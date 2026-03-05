@@ -38,8 +38,8 @@ export default function SiteEditorPage() {
   useEffect(() => {
     fetch("/api/settings")
       .then((r) => r.json())
-      .then((data: SiteSettings) => {
-        setSettings(data);
+      .then((data: unknown) => {
+        setSettings(data as SiteSettings);
         setLoading(false);
       })
       .catch(() => setLoading(false));
